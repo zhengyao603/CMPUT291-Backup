@@ -1,0 +1,156 @@
+CREATE TABLE Persons(
+  bplace	CHAR(20),
+  address	CHAR(20),
+  phone		CHAR(10),
+  bdate		DATE,	
+  lname		CHAR(10),	
+  fname		CHAR(10),	
+  PRIMARY KEY(bdate, lname, fname)
+);
+
+
+CREATE TABLE Births_rel_3(
+  regno		INTEGER,
+  regdate  	DATE,
+  regplace 	CHAR(20),
+  gender  	CHAR(6),  
+  b_bdate	DATE	   NOT NULL,
+  b_lname	CHAR(10)   NOT NULL,
+  b_fname	CHAR(10)   NOT NULL,
+  m_bdate	DATE	   NOT NULL,
+  m_lname	CHAR(10)   NOT NULL,
+  m_fname	CHAR(10)   NOT NULL,
+  f_bdate	DATE,
+  f_lname	CHAR(10),
+  f_fname	CHAR(10),
+  PRIMARY KEY (regno),
+  FOREIGN KEY(b_bdate, b_lname, b_fname) REFERENCES Persons 
+    	ON DELETE NO ACTION,
+  FOREIGN KEY(m_bdate, m_lname, m_fname) REFERENCES Persons  
+    	ON DELETE NO ACTION,
+  FOREIGN KEY(f_bdate, f_lname, f_fname) REFERENCES Persons	   
+);
+
+
+CREATE TABLE Marriages_rel_2(
+  m_regno      CHAR(10),
+  m_regdate    DATE,
+  m_regplace   CHAR(20),
+  p1_fname     CHAR(10)	   NOT NULL,
+  p1_lname     CHAR(10)	   NOT NULL,
+  p1_bdate     DATE	   NOT NULL,
+  p2_fname     CHAR(10)	   NOT NULL,
+  p2_lname     CHAR(10)	   NOT NULL,
+  p2_bdate     DATE,       NOT NULL,
+  PRIMARY KEY (m_regno)£¬
+  FOREIGN KEY(p1_bdate, p1_lname, p1_fname) REFERENCES Persons 
+	ON DELETE NO ACTION,
+  FOREIGN KEY(p2_bdate, p2_lname, p2_fname) REFERENCES Persons 
+	ON DELETE NO ACTION
+);
+
+
+CREATE TABLE Vehicles(
+  vin	      CHAR(10),
+  make	      CHAR(10),
+  model	      CHAR(10),
+  year	      DATE£¬
+  color       CHAR(10),
+  PRIMARY KEY(vin)
+);
+
+
+CREATE TABLE Vregistration_vreg_2(
+  v_regno     INTEGER,
+  v_regdate   DATE,
+  v_expiry    DATE,
+  v_plate     CHAR(20),
+  v_vin	      INTEGER	  NOT NULL,
+  v_fname     CHAR(10)	  NOT NULL,
+  v_lname     CHAR(10)	  NOT NULL,
+  v_bdate     DATE	  NOT NULL,
+  PRIMARY KEY(v_regno),
+  FOREIGN KEY(v_vin) REFERENCES Vehicles
+        ON DELETE NO ACTION,
+  FOREIGN KEY(v_fname, v_lname, v_bdate) REFERENCES Drivers
+        ON DELETE NO ACTION
+);
+
+
+CREATE TABLE Officers(
+  bdate	     DATE	 NOT NULL,	
+  lname	     CHAR(10)	 NOT NULL,	
+  fname	     CHAR(10)	 NOT NULL,
+  city	     CHAR(10),
+  PRIMARY KEY(bdate, lname, fname),
+  FOREIGN KEY(bdate, lname, fname) REFERENCES Persons
+	ON DELETE CASCADE
+);
+
+
+CREATE TABLE Drivers(
+  bdate	      DATE	 NOT NULL,	
+  lname	      CHAR(10)	 NOT NULL,	
+  fname	      CHAR(10)	 NOT NULL,
+  eyes_color  CHAR(10),
+  hair_color  CHAR(10),
+  PRIMARY KEY(bdate, lname, fname),
+  FOREIGN KEY(bdate, lname, fname) REFERENCES Persons
+	ON DELETE CASCADE
+);
+
+
+CREATE TABLE Tickets_rel_2(
+  tno 	      INTEGER,
+  fine 	      INTEGER,
+  offence     CHAR(20),
+  offdate     DATE,
+  i_bdate     DATE,
+  i_lname     CHAR(10),
+  i_fname     CHAR(10),
+  t_regno     INTEGER   NOT NULL,
+  PRIMARY KEY(tno),
+  FOREIGN KEY(i_bdate, i_lname, i_fname) REFERENCES Officers,	
+  FOREIGN KEY(v_regno) REFERENCES Vregistration_vreg_2
+	ON DELETE NO ACTION
+);
+
+
+CREATE TABLE DemeritNotice_Demerits(
+  points     INTEGER,
+  desc	     CHAR(20),
+  bdate	     DATE,
+  fname	     CHAR(10)	 NOT NULL, 
+  lname	     CHAR(10)	 NOT NULL,		
+  bdate	     DATE	 NOT NULL,
+  PRIMARY KEY(bdate, fname, lname, bdate),
+  FOREIGN KEY(fname, lname, bdate) REFERENCES Persons
+        ON DELETE CASCADE
+);
+
+
+CREATE TABLE LicenseClasses(
+  class	     CHAR(10),
+  desc       CHAR(20),
+  PRIMARY KEY(class)
+);
+
+
+
+CREATE TABLE Dlicenses_Lclass(
+  licno       INTEGER,
+  issued      CHAR(1),
+  expiry      DATE£¬
+  class	      CHAR(10)	 NOT NULL,
+  dli_fname   CHAR(10)   NOT NULL,
+  dli_lname   CHAR(10)   NOT NULL,
+  dli_bdate   DATE  	 NOT NULL,
+  PRIMARY KEY (licno),
+  FOREIGN KEY (dli_fname, dli_lname, dli_bdate) REFERENCES Drivers 
+	ON DELETE NO ACTION,
+  FOREIGN KEY (class) REFERENCES LicenseClasses 
+	ON DELETE NO ACTION
+);
+
+
+  

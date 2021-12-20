@@ -1,0 +1,23 @@
+Here is a grammar for the query language. You can as well generate a visual
+representation using an online railroad diagram editor (http://www.bottlecaps.de/rr/ui)
+
+alphanumeric    ::= [0-9a-zA-Z_]
+numeric		::= [0-9]
+date            ::= numeric numeric numeric numeric '/' numeric numeric '/' numeric numeric
+datePrefix      ::= 'date' whitespace* ( '>' | '<')
+dateQuery       ::= datePrefix whitespace* date
+pricePrefix	::= (price) whitespace* ( '>' | '<')
+priceQuery	::= pricePrefix whitespace* numeric+
+scorePrefix	::= (score) whitespace* ( '>' | '<')
+scoreQuery	::= scorePrefix whitespace* numeric+
+term            ::= alphanumeric+
+termPrefix	::= (pterm | rterm) whitespace* ':'
+termSuffix      ::= '%' 
+termQuery       ::= termPrefix? whitespace* term termSuffix?
+
+expression      ::= dateQuery | priceQuery | scoreQuery | termQuery 
+query           ::= expression (whitespace expression)*
+
+modeChange	::= 'output=full' | 'output=brief'
+
+command		::= query | modeChange

@@ -1,0 +1,17 @@
+This text file contains some general comments made by each member on the ER diagram of another group member.
+
+
+
+
+1. Comments made by CCID: zhengyao
+   Comments on CCID: bi2
+
+   - The diagram is not fully interpreting the entity 'Product Review'. In the description, it specifies that "Users can endorse product reviews (written by others)", which means users can only endorse reviews written by others. So, in my opinon, it would be better to consider the entity 'Product Review' as two parts: one is the reviews written by user themself, the other is the review written by others.
+
+
+
+
+2. Comments made by CCID: bi2
+   Comments on CCID: Zhengyao
+
+   - This ER diagram loses some key and attribute for some entity, and it is important to note that an entity must have a primary key. However, in the diagram there is no such a primary key of 'Item' existed. Although there is no requirement in the assignment specification ask you to do so, a reasonable primary key can be added to entity 'Item'. Similarly, it is also good idea to put some reasonable attributes at 'Other_Reviews' and 'Self_Reviews'.
